@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fountain of Achiever's International School Quiz</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>Welcome to Fountain of Achiever's International School</h1>
+
+<div id="startPage">
+
+<p>Enter your name</p>
+
+<input type="text" id="studentName" placeholder="Your Name">
+
+<br><br>
+
+<button onclick="startQuiz()">Start Quiz</button>
+
+</div>
+
+
+<div id="quizPage" style="display:none;">
+
+<h2 id="studentDisplay"></h2>
+
+<div id="quiz"></div>
+
+<br>
+
+<button onclick="submitQuiz()">Submit</button>
+
+<h2 id="score"></h2>
+
+</div>
+
+
+<script src="questions.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
