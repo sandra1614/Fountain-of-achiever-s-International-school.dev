@@ -1,44 +1,75 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Fountain of Achiever's International School Quiz</title>
-<link rel="stylesheet" href="style.css">
-</head>
+// Function to start the quiz
+function startQuiz() {
+    let name = document.getElementById("studentName").value;
 
-<body>
+    if (name === "") {
+        alert("Please enter your name");
+        return;
+    }
 
-<h1>Welcome to Fountain of Achiever's International School</h1>
+    // Hide start page
+    document.getElementById("startPage").style.display = "none";
 
-<div id="startPage">
+    // Show quiz page
+    document.getElementById("quizPage").style.display = "block";
 
-<p>Enter your name</p>
+    // Show student name
+    document.getElementById("studentDisplay").innerHTML = "Student: " + name;
 
-<input type="text" id="studentName" placeholder="Your Name">
+    // Load questions
+    loadQuiz();
+}
 
-<br><br>
+// Container for quiz questions
+const quizContainer = document.getElementById("quiz");
 
-<button onclick="startQuiz()">Start Quiz</button>
+// Function to load all questions
+function loadQuiz() {
+    quizContainer.innerHTML = ""; // Clear previous questions if any
 
-</div>
+    quizQuestions.forEach((q, index) => {
+        let html = `<div class="question">
+        <p>${index + 1}. ${q.question}</p>`;
 
+        q.options.forEach((opt, i) => {
+            html += `
+            <label>
+                <input type="radio" name="q${index}" value="${i}">
+                ${opt}
+                <span id="mark${index}${i}"></span>
+            </label><br>`;
+        });
 
-<div id="quizPage" style="display:none;">
+        html += `<p id="sol${index}" class="solution"></p>`;
+        html += `</div>`;
 
-<h2 id="studentDisplay"></h2>
+        quizContainer.innerHTML += html;
+    });
+}
 
-<div id="quiz"></div>
+// Function to check answers and show results
+function submitQuiz() {
+    let score = 0;
 
-<br>
+    quizQuestions.forEach((q, index) => {
+        let selected = document.querySelector(`input[name="q${index}"]:checked`);
 
-<button onclick="submitQuiz()">Submit</button>
+        if (selected) {
+            let answer = parseInt(selected.value);
 
-<h2 id="score"></h2>
+            if (answer === q.correct) {
+                score++;
+                document.getElementById(`mark${index}${answer}`).innerHTML = " ✔";
+            } else {
+                document.getElementById(`mark${index}${answer}`).innerHTML = " ✖";
+                document.getElementById(`mark${index}${q.correct}`).innerHTML = " ✔";
+            }
+        }
 
-</div>
+        // Show solution
+        document.getElementById(`sol${index}`).innerHTML = "Solution: " + q.solution;
+    });
 
-
-<script src="questions.js"></script>
-<script src="script.js"></script>
-
-</body>
-</html>
+    // Show total score
+    document.getElementById("score").innerHTML = "Your Score: " + score + " / " + quizQuestions.length;
+}
